@@ -1,0 +1,80 @@
+﻿#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background: #F2F2F2;
+}
+
+tr:nth-child(odd) {
+    background: #FFF;
+}
+
+th, td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.containerbox {
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px gray;
+    background-color: white;
+    padding: 20px;
+    text-align: left;
+}
+.app {
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.menu-btn, .user-icon {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin: 0 10px;
+    position: relative;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px 40px 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    color: #aaa;
+}
+
+.content {
+    padding: 70px 20px 20px; /* Ajustar padding superior para evitar sobreposição */
+}

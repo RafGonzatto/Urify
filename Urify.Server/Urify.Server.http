@@ -1,0 +1,6 @@
+@Urify.Server_HostAddress = http://localhost:5234
+
+GET {{Urify.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
