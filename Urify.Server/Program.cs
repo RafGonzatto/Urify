@@ -42,10 +42,12 @@ namespace Urify.Server
             }).RequireAuthorization();
 
 
-            app.MapGet("/pingauth", (ClaimsPrincipal user) =>
+            app.MapGet("/pingauth", async (ClaimsPrincipal user, UserManager<ApplicationUser> userManager) =>
             {
-                var email = user.FindFirstValue(ClaimTypes.Email); // get the user's email from the claim
-                return Results.Json(new { Email = email }); ; // return the email as a plain text response
+                var email = user.FindFirstValue(ClaimTypes.Email);
+                
+                var applicationUser = await userManager.FindByEmailAsync(email);
+                return Results.Json(new { Email = email, UserType = applicationUser.UserType, Status = applicationUser.IsAccountApproved}); ; // return the email as a plain text response
             }).RequireAuthorization();
 
 
