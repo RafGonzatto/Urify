@@ -1,23 +1,45 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../css/ChangePassword.css';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../Components/AuthorizeView.tsx'; // Certifique-se de importar corretamente o contexto
 
 const ChangePassword: React.FC = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const history = useNavigate();
+    const navigate = useNavigate();
+    const user = useContext(UserContext); // Acesso ao contexto UserContext
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        // Simulação de lógica para alterar a senha
-        //if (newPassword === confirmPassword) {
-        //    fetch(`/change-password`, {
-                
-        //    }
-        //} else {
-        //    alert('As senhas não coincidem. Por favor, tente novamente.');
-        //}
+
+        if (newPassword !== confirmPassword) {
+            alert('As senhas não coincidem. Por favor, tente novamente.');
+            return;
+        }
+
+        try {
+            const response = await fetch('https://localhost:7249/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    currentPassword,
+                    newPassword,
+                    email: user.email, // Utilizando o email do contexto
+                })
+            });
+
+            if (response.ok) {
+                alert('Senha alterada com sucesso!');
+                navigate('/');
+            } else {
+                const error = await response.json();
+                alert(`Erro: ${error.message}`);
+            }
+        } catch (error) {
+            alert('Ocorreu um erro ao tentar alterar a senha. Por favor, tente novamente.');
+        }
     };
 
     return (

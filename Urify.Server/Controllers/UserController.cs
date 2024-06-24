@@ -77,17 +77,32 @@ namespace Urify.Server.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("pingauth")]
-        //[Authorize]
-        //public async Task<IActionResult> PingAuth()
-        //{
-        //    var user = HttpContext.User;
-        //    var email = user.FindFirstValue(ClaimTypes.Email);
-        //    var applicationUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
-        //    var userType = applicationUser.UserType;
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model data.");
+            }
 
-        //    return (IActionResult)Results.Json(new { Email = email, UserType = userType }); ;
-        //}
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.RefreshSignInAsync(user);
+                return Ok("Password changed successfully.");
+            }
+            else
+            {
+                var message = string.Join(", ", result.Errors.Select(e => e.Description));
+                return BadRequest(new { message });
+            }
+        }
     }
 }
