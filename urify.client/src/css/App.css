@@ -48,13 +48,17 @@ th, td {
     border: none;
     font-size: 1.5em;
     cursor: pointer;
+    padding: 0px 10px 0px 10px;
+}
+.user-icon {
+    margin-right: 20px;
 }
 
 .search-bar-container {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    margin: 0 10px;
+    margin: 0 25%;
     position: relative;
 }
 

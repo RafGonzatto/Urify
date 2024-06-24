@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import '../Sidebar.css';
+import '../css/Sidebar.css';
 
 interface SidebarProps {
     onClose: () => void;

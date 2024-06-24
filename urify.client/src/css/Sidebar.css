@@ -1,7 +1,7 @@
 .sidebar {
     position: fixed;
     left: 0;
-    top: 81px; /* Alinhar com a altura do header */
+    top: 61px; /* Alinhar com a altura do header */
     width: 250px;
     height: 100%; /* Ajuste conforme necessário */
     background-color: #333;
