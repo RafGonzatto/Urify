@@ -4,10 +4,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Urify.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNewFieldsToApplicationUser : Migration
+    public partial class CreateTicketAndBuildingTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,6 +55,19 @@ namespace Urify.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Buildings",
+                columns: table => new
+                {
+                    BuildingId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Buildings", x => x.BuildingId);
                 });
 
             migrationBuilder.CreateTable(
@@ -161,6 +176,76 @@ namespace Urify.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    TicketId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    BuildingId = table.Column<int>(type: "integer", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Image = table.Column<byte[]>(type: "bytea", nullable: false),
+                    WorkerId = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    BuildingId1 = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.TicketId);
+                    table.ForeignKey(
+                        name: "FK_Tickets_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_AspNetUsers_WorkerId",
+                        column: x => x.WorkerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Buildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "Buildings",
+                        principalColumn: "BuildingId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Buildings_BuildingId1",
+                        column: x => x.BuildingId1,
+                        principalTable: "Buildings",
+                        principalColumn: "BuildingId");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Buildings",
+                columns: new[] { "BuildingId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Salas de Aula" },
+                    { 2, "Cantina Uri" },
+                    { 3, "Clínica de Psicologia Farmácia Escola" },
+                    { 4, "Clínica Veterinária" },
+                    { 5, "Lab. Computação" },
+                    { 6, "Salas de Aula" },
+                    { 7, "Lab. Química e Lab. Águas" },
+                    { 14, "Escola da Uri Cantina" },
+                    { 15, "Lab. Engenharias" },
+                    { 16, "Lab. Anatomia humana e Lab. Anatomia Animal" },
+                    { 17, "Salas de Aula" },
+                    { 23, "Gerador" },
+                    { 24, "Lab. Eng. Elétrica" },
+                    { 25, "Ginásio de Esportes 2" },
+                    { 26, "Almoxarifado de Química" },
+                    { 27, "Salas de Aula" },
+                    { 28, "Tecnouri Auditório" },
+                    { 29, "Lab. Agronomia" },
+                    { 30, "Container de Agronomia" },
+                    { 31, "Agroestufa" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -197,6 +282,26 @@ namespace Urify.Server.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_BuildingId",
+                table: "Tickets",
+                column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_BuildingId1",
+                table: "Tickets",
+                column: "BuildingId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_UserId",
+                table: "Tickets",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_WorkerId",
+                table: "Tickets",
+                column: "WorkerId");
         }
 
         /// <inheritdoc />
@@ -218,10 +323,16 @@ namespace Urify.Server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Tickets");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Buildings");
         }
     }
 }

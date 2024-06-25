@@ -232,6 +232,174 @@ namespace Urify.Server.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Urify.Server.Data.Building", b =>
+                {
+                    b.Property<int>("BuildingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BuildingId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("BuildingId");
+
+                    b.ToTable("Buildings");
+
+                    b.HasData(
+                        new
+                        {
+                            BuildingId = 1,
+                            Name = "Salas de Aula"
+                        },
+                        new
+                        {
+                            BuildingId = 2,
+                            Name = "Cantina Uri"
+                        },
+                        new
+                        {
+                            BuildingId = 3,
+                            Name = "Clínica de Psicologia Farmácia Escola"
+                        },
+                        new
+                        {
+                            BuildingId = 4,
+                            Name = "Clínica Veterinária"
+                        },
+                        new
+                        {
+                            BuildingId = 5,
+                            Name = "Lab. Computação"
+                        },
+                        new
+                        {
+                            BuildingId = 6,
+                            Name = "Salas de Aula"
+                        },
+                        new
+                        {
+                            BuildingId = 7,
+                            Name = "Lab. Química e Lab. Águas"
+                        },
+                        new
+                        {
+                            BuildingId = 14,
+                            Name = "Escola da Uri Cantina"
+                        },
+                        new
+                        {
+                            BuildingId = 15,
+                            Name = "Lab. Engenharias"
+                        },
+                        new
+                        {
+                            BuildingId = 16,
+                            Name = "Lab. Anatomia humana e Lab. Anatomia Animal"
+                        },
+                        new
+                        {
+                            BuildingId = 17,
+                            Name = "Salas de Aula"
+                        },
+                        new
+                        {
+                            BuildingId = 23,
+                            Name = "Gerador"
+                        },
+                        new
+                        {
+                            BuildingId = 24,
+                            Name = "Lab. Eng. Elétrica"
+                        },
+                        new
+                        {
+                            BuildingId = 25,
+                            Name = "Ginásio de Esportes 2"
+                        },
+                        new
+                        {
+                            BuildingId = 26,
+                            Name = "Almoxarifado de Química"
+                        },
+                        new
+                        {
+                            BuildingId = 27,
+                            Name = "Salas de Aula"
+                        },
+                        new
+                        {
+                            BuildingId = 28,
+                            Name = "Tecnouri Auditório"
+                        },
+                        new
+                        {
+                            BuildingId = 29,
+                            Name = "Lab. Agronomia"
+                        },
+                        new
+                        {
+                            BuildingId = 30,
+                            Name = "Container de Agronomia"
+                        },
+                        new
+                        {
+                            BuildingId = 31,
+                            Name = "Agroestufa"
+                        });
+                });
+
+            modelBuilder.Entity("Urify.Server.Data.Ticket", b =>
+                {
+                    b.Property<int>("TicketId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
+
+                    b.Property<int>("BuildingId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("BuildingId1")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("WorkerId")
+                        .HasColumnType("text");
+
+                    b.HasKey("TicketId");
+
+                    b.HasIndex("BuildingId");
+
+                    b.HasIndex("BuildingId1");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WorkerId");
+
+                    b.ToTable("Tickets");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -281,6 +449,41 @@ namespace Urify.Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Urify.Server.Data.Ticket", b =>
+                {
+                    b.HasOne("Urify.Server.Data.Building", "Building")
+                        .WithMany()
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Urify.Server.Data.Building", null)
+                        .WithMany("Tickets")
+                        .HasForeignKey("BuildingId1");
+
+                    b.HasOne("Urify.Server.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Urify.Server.Data.ApplicationUser", "Worker")
+                        .WithMany()
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Building");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Worker");
+                });
+
+            modelBuilder.Entity("Urify.Server.Data.Building", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

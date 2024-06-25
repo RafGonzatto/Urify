@@ -8,14 +8,36 @@ namespace Urify.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
+
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Building> Buildings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+            // Configure relationships if needed
+            builder.Entity<Ticket>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.Building)
+                .WithMany()
+                .HasForeignKey(t => t.BuildingId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.Worker)
+                .WithMany()
+                .HasForeignKey(t => t.WorkerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Seed();
         }
     }
 }
