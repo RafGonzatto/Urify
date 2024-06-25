@@ -1,7 +1,8 @@
 ﻿import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import UserModal from './UserModal';
 import { Navigate } from 'react-router-dom';
+import Admin from './Admin';
+import Worker from './Worker';
+import Student from './Student';
 import '../css/App.css';
 
 interface HeaderProps {
@@ -12,13 +13,17 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ userType, status }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [isTicketModalOpen, setIsTicketModalOpen] = useState(false); // Adicionar estado para TicketModal
+
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const toggleUserModal = () => setIsUserModalOpen(!isUserModalOpen);
+    const toggleTicketModal = () => setIsTicketModalOpen(!isTicketModalOpen); // Adicionar função para TicketModal
 
     if (!status) {
         return <Navigate to="/login" />;
     }
-    let content = "";
+
+    let content;
     switch (userType) {
         case 0:
             content = <Student toggleSidebar={toggleSidebar} toggleUserModal={toggleUserModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} />;
@@ -27,9 +32,10 @@ const Header: React.FC<HeaderProps> = ({ userType, status }) => {
             content = <Worker toggleSidebar={toggleSidebar} toggleUserModal={toggleUserModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} />;
             break;
         case 2:
-            content = <Admin toggleSidebar={toggleSidebar} toggleUserModal={toggleUserModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} />;
+            content = <Admin toggleSidebar={toggleSidebar} toggleUserModal={toggleUserModal} toggleTicketModal={toggleTicketModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} isTicketModalOpen={isTicketModalOpen} />;
             break;
         default:
+            content = null;
             break;
     }
 
@@ -39,71 +45,5 @@ const Header: React.FC<HeaderProps> = ({ userType, status }) => {
         </div>
     );
 };
-
-const Student: React.FC<{ toggleSidebar: () => void; toggleUserModal: () => void; isSidebarOpen: boolean; isUserModalOpen: boolean; }> = ({ toggleSidebar, toggleUserModal, isSidebarOpen, isUserModalOpen }) => (
-    <>
-        <header className="header">
-            <button className="menu-btn" onClick={toggleSidebar}>
-                ☰
-            </button>
-            <div className="search-bar-container">
-                <input type="text" className="search-bar" placeholder="Search..." />
-                <span className="search-icon">🔍</span>
-            </div>
-            <button className="user-icon" onClick={toggleUserModal}>
-                👤
-            </button>
-        </header>
-        {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
-        {isUserModalOpen && <UserModal />}
-        <main className="content">
-            <p>Restante não implementado do site para Estudante</p>
-        </main>
-    </>
-);
-
-const Worker: React.FC<{ toggleSidebar: () => void; toggleUserModal: () => void; isSidebarOpen: boolean; isUserModalOpen: boolean; }> = ({ toggleSidebar, toggleUserModal, isSidebarOpen, isUserModalOpen }) => (
-    <>
-        <header className="header">
-            <button className="menu-btn" onClick={toggleSidebar}>
-                ☰
-            </button>
-            <div className="search-bar-container">
-                <input type="text" className="search-bar" placeholder="Search..." />
-                <span className="search-icon">🔍</span>
-            </div>
-            <button className="user-icon" onClick={toggleUserModal}>
-                👤
-            </button>
-        </header>
-        {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
-        {isUserModalOpen && <UserModal />}
-        <main className="content">
-            <p>Restante não implementado do site para Trabalhador</p>
-        </main>
-    </>
-);
-
-const Admin: React.FC<{ toggleSidebar: () => void; toggleUserModal: () => void; isSidebarOpen: boolean; isUserModalOpen: boolean; }> = ({ toggleSidebar, toggleUserModal, isSidebarOpen, isUserModalOpen }) => (
-    <>
-        <header className="header">
-            <button className="menu-btn" onClick={toggleSidebar}>
-                ☰
-            </button>
-            <div className="search-bar-container">
-                <input type="text" className="search-bar" placeholder="Search..." />
-                <span className="search-icon">🔍</span>
-            </div>
-            <button className="user-icon" onClick={toggleUserModal}>
-                👤
-            </button>
-        </header>
-        {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
-        {isUserModalOpen && <UserModal />}
-        <main className="content">
-            <p>Restante não implementado do site para Admin</p>
-        </main>
-    </>
-);
 
 export default Header;
