@@ -32,16 +32,16 @@ const inputStyles = {
 Modal.setAppElement('#root');
 
 const TicketModal = ({ isOpen, onRequestClose }) => {
-    const [options, setOptions] = useState([]);
-    const [selectedOption, setSelectedOption] = useState('');
+    const [buildings, setBuildings] = useState([]);
+    const [selectedBuilding, setSelectedBuilding] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
 
     useEffect(() => {
-        // Fetch options from the database
-        fetch('/api/options') // Adjust the endpoint to your needs
+        // Fetch buildings from the database
+        fetch('https://localhost:7249/building/all-buldings')
             .then(response => response.json())
-            .then(data => setOptions(data));
+            .then(data => setBuildings(data));
     }, []);
 
     const handleChangeDescription = (e) => {
@@ -53,7 +53,7 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('option', selectedOption);
+        formData.append('buildingId', selectedBuilding);
         formData.append('description', description);
         if (image) {
             formData.append('image', image);
@@ -86,14 +86,14 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
                         <label htmlFor="combobox">Prédio:</label>
                         <select
                             id="combobox"
-                            value={selectedOption}
-                            onChange={(e) => setSelectedOption(e.target.value)}
+                            value={selectedBuilding}
+                            onChange={(e) => setSelectedBuilding(e.target.value)}
                             style={inputStyles} // Aplicando os estilos
                         >
-                            <option value="">Select an option</option>
-                            {options.map((option) => (
-                                <option key={option.id} value={option.id}>
-                                    {option.name}
+                            <option value="">Selecione o prédio</option>
+                            {buildings.map((building) => (
+                                <option key={building.buildingId} value={building.buildingId}>
+                                    {building.buildingId} - {building.name}
                                 </option>
                             ))}
                         </select>
@@ -105,7 +105,7 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
                             value={description}
                             onChange={handleChangeDescription}
                             rows={4}  // Adjust textarea height
-                            maxLength={200}  // Limit to 200 characters
+                            maxLength={100}  // Limit to 200 characters
                             style={{ ...inputStyles, resize: 'vertical' }} // Aplicando os estilos
                         ></textarea>
                     </div>
