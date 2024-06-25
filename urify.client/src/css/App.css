@@ -42,16 +42,29 @@ th, td {
     left: 0;
     z-index: 1000;
 }
+.modal-content {
+    cursor: move;
+    padding: 10px;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+}
 
-.menu-btn, .user-icon {
+
+.menu-btn, .user-icon, .ticket-btn {
     background: none;
     border: none;
     font-size: 1.5em;
     cursor: pointer;
     padding: 0px 10px 0px 10px;
+    border: 1px solid #ccc;
 }
 .user-icon {
     margin-right: 20px;
+}
+.ticket-btn {
+    margin-right: 20px;
+    font-size: 14px;
+    padding: 10px 10px 10px 10px;
 }
 
 .search-bar-container {

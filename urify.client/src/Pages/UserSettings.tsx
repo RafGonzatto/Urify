@@ -1,19 +1,19 @@
-import React from 'react';
+ï»¿import React from 'react';
 import { Link } from 'react-router-dom'; // Importe Link do react-router-dom
 import '../css/UserSettings.css';
 import { AuthorizeView } from '../Components/AuthorizeView.tsx';
-import ChangePassword from '../Components/ChangePassword'; // Importe o componente de alteração de senha
+import ChangePassword from '../Components/ChangePassword'; // Importe o componente de alteraÃ§Ã£o de senha
+import '../css/UserSettings.css'
 
 const UserSettings: React.FC = () => {
     return (
 
         <AuthorizeView>
-        <div className="user-settings">
-            <h2>Configurações do Usuário</h2>
+                <header className="user-settings-header">
+                <h2 >ConfiguraÃ§Ãµes</h2>
+                    <Link to="/" className="home-button">Voltar Home</Link>
+                </header>
             <ChangePassword />
-            {/* Botão para voltar para a home */}
-            <Link to="/">Voltar para Home</Link>
-            </div>
         </AuthorizeView>
     );
 };

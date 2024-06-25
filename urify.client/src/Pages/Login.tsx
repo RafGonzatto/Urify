@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../css/Login.css";
 
 function Login() {
     // state variables for email and passwords
@@ -49,17 +50,14 @@ function Login() {
                     password: password,
                 }),
             })
-
                 .then((data) => {
                     // handle success or error from the server
                     console.log(data);
                     if (data.ok) {
-                        setError("Successful Login.");
                         window.location.href = '/';
                     }
                     else
                         setError("Error Logging In.");
-
                 })
                 .catch((error) => {
                     // handle network error
@@ -70,13 +68,11 @@ function Login() {
     };
 
     return (
-        <div className="containerbox">
-            <h3>Login</h3>
+        <div className="login-container">
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label className="forminput" htmlFor="email">Email:</label>
-                </div>
-                <div>
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -85,10 +81,8 @@ function Login() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                </div>
-                <div>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
@@ -97,19 +91,20 @@ function Login() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="form-group form-checkbox">
                     <input
                         type="checkbox"
                         id="rememberme"
                         name="rememberme"
                         checked={rememberme}
-                        onChange={handleChange} /><span>Remember Me</span>
+                        onChange={handleChange} />
+                    <label htmlFor="rememberme">Remember Me</label>
                 </div>
-                <div>
-                    <button type="submit">Login</button>
+                <div className="form-group">
+                    <button type="submit" className="login-button">Login</button>
                 </div>
-                <div>
-                    <button onClick={handleRegisterClick}>Register</button>
+                <div className="form-group">
+                    <button type="button" onClick={handleRegisterClick} className="register-button">Register</button>
                 </div>
             </form>
             {error && <p className="error">{error}</p>}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../css/Register.css";
 
 function Register() {
     const [email, setEmail] = useState("");
@@ -66,12 +67,12 @@ function Register() {
     };
 
     return (
-        <div className="containerbox">
-            <h3>Register</h3>
+        <div className="register-container">
+            <h2>Register</h2>
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="firstName">First Name:</label>
+                <div className="form-group">
+                    <label htmlFor="firstName">First Name</label>
                     <input
                         type="text"
                         id="firstName"
@@ -80,8 +81,8 @@ function Register() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label htmlFor="lastName">Last Name:</label>
+                <div className="form-group">
+                    <label htmlFor="lastName">Last Name</label>
                     <input
                         type="text"
                         id="lastName"
@@ -90,8 +91,8 @@ function Register() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -100,8 +101,8 @@ function Register() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
@@ -110,8 +111,8 @@ function Register() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                <div className="form-group">
+                    <label htmlFor="confirmPassword">Confirm Password</label>
                     <input
                         type="password"
                         id="confirmPassword"
@@ -120,9 +121,9 @@ function Register() {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="form-group form-checkbox-group">
                     <label>User Type:</label>
-                    <div>
+                    <div className="form-checkbox">
                         <input
                             type="radio"
                             id="student"
@@ -133,7 +134,7 @@ function Register() {
                         />
                         <label htmlFor="student">Student</label>
                     </div>
-                    <div>
+                    <div className="form-checkbox">
                         <input
                             type="radio"
                             id="employee"
@@ -144,7 +145,7 @@ function Register() {
                         />
                         <label htmlFor="employee">Employee</label>
                     </div>
-                    <div>
+                    <div className="form-checkbox">
                         <input
                             type="radio"
                             id="management"
@@ -156,11 +157,11 @@ function Register() {
                         <label htmlFor="management">Management</label>
                     </div>
                 </div>
-                <div>
-                    <button type="submit">Register</button>
+                <div className="form-group">
+                    <button type="submit" className="register-button">Register</button>
                 </div>
-                <div>
-                    <button onClick={handleLoginClick}>Go to Login</button>
+                <div className="form-group">
+                    <button type="button" onClick={handleLoginClick} className="login-button">Go to Login</button>
                 </div>
             </form>
 

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../Components/AuthorizeView.tsx'; // Certifique-se de importar corretamente o contexto
-
+import '../css/ChangePassword.css'
 const ChangePassword: React.FC = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -42,12 +42,13 @@ const ChangePassword: React.FC = () => {
         }
     };
 
+
     return (
         <div className="change-password">
             <h2>Alterar Senha</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="currentPassword">Senha Atual:</label>
+                <div className="form-group">
+                    <label htmlFor="currentPassword">Senha antiga</label>
                     <input
                         type="password"
                         id="currentPassword"
@@ -55,8 +56,8 @@ const ChangePassword: React.FC = () => {
                         onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="newPassword">Nova Senha:</label>
+                <div className="form-group">
+                    <label htmlFor="newPassword">Nova senha</label>
                     <input
                         type="password"
                         id="newPassword"
@@ -64,8 +65,8 @@ const ChangePassword: React.FC = () => {
                         onChange={(e) => setNewPassword(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirmar Nova Senha:</label>
+                <div className="form-group">
+                    <label htmlFor="confirmPassword">Confirmar nova senha</label>
                     <input
                         type="password"
                         id="confirmPassword"
@@ -73,7 +74,8 @@ const ChangePassword: React.FC = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit">Alterar Senha</button>
+                <p className="password-info">Tenha certeza de que sua senha tenha no mínimo 8 caracteres, incluindo número, uma letra maiúscula</p>
+                <button type="submit" className="update-password-button">Atualizar senha</button>
             </form>
         </div>
     );
