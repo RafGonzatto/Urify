@@ -17,10 +17,28 @@ namespace Urify.Server.Controllers
             _context = context;
         }
 
-        [HttpGet("all-buldings")]
-        public async Task<ActionResult<IEnumerable<Building>>> GetBuildings()
+        [HttpGet("all-buildings")]
+      public async Task<ActionResult<IEnumerable<BuildingDto>>> GetBuildings()
         {
-            return await _context.Buildings.ToListAsync();
+            var buildings = await _context.Buildings
+           .Include(b => b.Tickets) // Inclui os tickets associados a cada construção
+           .ToListAsync();
+
+            // Mapeia para BuildingDto se necessário
+            var buildingDtos = buildings.Select(b => new BuildingDto
+            {
+                BuildingId = b.BuildingId,
+                Name = b.Name,
+                TicketCount = b.Tickets.Count, // Calcula a quantidade de tickets
+                Tickets = b.Tickets.Select(t => new TicketDto
+                {
+                    TicketId = t.TicketId,
+                    // Outras propriedades do ticket que você deseja incluir
+                }).ToList()
+            }).ToList();
+
+            return buildingDtos;
         }
+
     }
 }
