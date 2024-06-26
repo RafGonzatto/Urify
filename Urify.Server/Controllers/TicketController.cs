@@ -7,7 +7,7 @@ using Urify.Server.Data;
 
 namespace Urify.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TicketController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace Urify.Server.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
+        [HttpGet("all-tickets")]
         public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
         {
             return await _context.Tickets.ToListAsync();
@@ -39,40 +39,46 @@ namespace Urify.Server.Controllers
             return ticket;
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket)
+        [HttpPost("create-ticket")]
+        public async Task<ActionResult<Ticket>> PostTicket([FromForm] TicketFormData formData)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByEmailAsync(formData.Email);
             if (user == null)
             {
                 return Unauthorized();
             }
+            byte[] imageBytes = null;
 
-            // Atribui o ID do usuário ao ticket
-            ticket.UserId = user.Id;
-            ticket.DateCreated = DateTime.UtcNow;
-            ticket.Status = TicketStatus.Open;
-
-            // Atribuir um trabalhador se o usuário for do tipo correto
-            if (user.UserType != UserType.Worker)
+            if (formData.Image != null)
             {
-                var worker = await _userManager.Users
-                    .FirstOrDefaultAsync(u => u.UserType == UserType.Worker);
-
-                if (worker != null)
+                using (var memoryStream = new MemoryStream())
                 {
-                    ticket.WorkerId = worker.Id;  // Corrige aqui para atribuir o ID correto
+                    await formData.Image.CopyToAsync(memoryStream);
+                    imageBytes = memoryStream.ToArray();
                 }
             }
 
+            // Crie um novo ticket usando os dados do formData
+            var ticket = new Ticket
+            {
+                UserId = user.Id,
+                DateCreated = DateTime.UtcNow,
+                Status = TicketStatus.Open,
+                BuildingId = formData.BuildingId,
+                Description = formData.Description,
+                Image = imageBytes
+                // Salvar ou processar a imagem aqui, se necessário
+            };
+
+            // Salve o ticket no banco de dados
             _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTicket", new { id = ticket.TicketId }, ticket);
         }
 
-        [HttpPut("{id}")]
+
+        [HttpPut("alter-ticket/{id}")]
         public async Task<IActionResult> PutTicket(int id, Ticket ticket)
         {
             if (id != ticket.TicketId)
@@ -101,7 +107,7 @@ namespace Urify.Server.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete-ticket/{id}")]
         public async Task<IActionResult> DeleteTicket(int id)
         {
             var ticket = await _context.Tickets.FindAsync(id);
