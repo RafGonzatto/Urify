@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Urify.Server.Data;
+
 namespace Urify.Server.Data
 {
     public class ApplicationUser : IdentityUser
