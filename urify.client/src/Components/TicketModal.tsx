@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import { UserContext } from '../Components/AuthorizeView.tsx'; 
 
 const customStyles = {
     content: {
@@ -36,13 +37,19 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
     const [selectedBuilding, setSelectedBuilding] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
+    const email = localStorage.getItem("email");
 
     useEffect(() => {
         // Fetch buildings from the database
-        fetch('https://localhost:7249/building/all-buldings')
-            .then(response => response.json())
-            .then(data => setBuildings(data));
+        fetchBuildings();
     }, []);
+
+    const fetchBuildings = () => {
+        fetch('https://localhost:7249/building/all-buildings')
+            .then(response => response.json())
+            .then(data => setBuildings(data))
+            .catch(error => console.error('Error fetching buildings:', error));
+    };
 
     const handleChangeDescription = (e) => {
         // Limit description to 200 characters
@@ -52,23 +59,29 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         formData.append('buildingId', selectedBuilding);
         formData.append('description', description);
-        if (image) {
-            formData.append('image', image);
-        }
+        formData.append('image', image);  // 'image' deve ser um Blob ou File
+        formData.append('email', email); 
+        
 
-        fetch('/api/tickets', {
+        fetch('https://localhost:7249/Ticket/create-ticket', {
             method: 'POST',
             body: formData,
         }).then(response => {
             if (response.ok) {
                 alert('Ticket created successfully');
                 onRequestClose();
+                // Atualiza a lista de prédios após criar o ticket, se necessário
+                fetchBuildings();
             } else {
                 alert('Failed to create ticket');
             }
+        }).catch(error => {
+            console.error('Error creating ticket:', error);
+            alert('Failed to create ticket');
         });
     };
 

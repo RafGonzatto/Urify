@@ -52,7 +52,7 @@ function Login() {
             })
                 .then((data) => {
                     // handle success or error from the server
-                    console.log(data);
+                    localStorage.setItem('email', email);
                     if (data.ok) {
                         window.location.href = '/';
                     }

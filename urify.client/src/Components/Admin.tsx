@@ -2,6 +2,7 @@
 import Sidebar from './Sidebar';
 import UserModal from './UserModal';
 import TicketModal from './TicketModal';
+import { AuthorizeView } from '../Components/AuthorizeView.tsx';
 
 interface AdminProps {
     toggleSidebar: () => void;
@@ -13,6 +14,8 @@ interface AdminProps {
 }
 
 const Admin: React.FC<AdminProps> = ({ toggleSidebar, toggleUserModal, toggleTicketModal, isSidebarOpen, isUserModalOpen, isTicketModalOpen }) => (
+    
+        <AuthorizeView>
     <>
         <header className="header">
             <button className="menu-btn" onClick={toggleSidebar}>
@@ -34,7 +37,8 @@ const Admin: React.FC<AdminProps> = ({ toggleSidebar, toggleUserModal, toggleTic
         <main className="content">
             <p>Restante não implementado do site para Admin</p>
         </main>
-    </>
+        </>
+    </AuthorizeView >
 );
 
 export default Admin;
