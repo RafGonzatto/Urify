@@ -9,13 +9,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Urify.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateTicketAndBuildingTables : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "public");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -30,6 +34,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -59,6 +64,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Buildings",
+                schema: "public",
                 columns: table => new
                 {
                     BuildingId = table.Column<int>(type: "integer", nullable: false)
@@ -72,6 +78,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -86,6 +93,7 @@ namespace Urify.Server.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "public",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -93,6 +101,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -107,6 +116,7 @@ namespace Urify.Server.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -114,6 +124,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
+                schema: "public",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
@@ -127,6 +138,7 @@ namespace Urify.Server.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -134,6 +146,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
+                schema: "public",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -145,12 +158,14 @@ namespace Urify.Server.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "public",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -158,6 +173,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
+                schema: "public",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -171,6 +187,7 @@ namespace Urify.Server.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -178,6 +195,7 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Tickets",
+                schema: "public",
                 columns: table => new
                 {
                     TicketId = table.Column<int>(type: "integer", nullable: false)
@@ -188,38 +206,36 @@ namespace Urify.Server.Migrations
                     Description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Image = table.Column<byte[]>(type: "bytea", nullable: false),
                     WorkerId = table.Column<string>(type: "text", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    BuildingId1 = table.Column<int>(type: "integer", nullable: true)
+                    Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tickets", x => x.TicketId);
                     table.ForeignKey(
+                        name: "FK_Ticket_To_Building_BuildingId",
+                        column: x => x.BuildingId,
+                        principalSchema: "public",
+                        principalTable: "Buildings",
+                        principalColumn: "BuildingId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Tickets_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tickets_AspNetUsers_WorkerId",
                         column: x => x.WorkerId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Buildings_BuildingId",
-                        column: x => x.BuildingId,
-                        principalTable: "Buildings",
-                        principalColumn: "BuildingId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Buildings_BuildingId1",
-                        column: x => x.BuildingId1,
-                        principalTable: "Buildings",
-                        principalColumn: "BuildingId");
                 });
 
             migrationBuilder.InsertData(
+                schema: "public",
                 table: "Buildings",
                 columns: new[] { "BuildingId", "Name" },
                 values: new object[,]
@@ -248,58 +264,63 @@ namespace Urify.Server.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
+                schema: "public",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "public",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
+                schema: "public",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
+                schema: "public",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
+                schema: "public",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
+                schema: "public",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
+                schema: "public",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_BuildingId",
+                schema: "public",
                 table: "Tickets",
                 column: "BuildingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_BuildingId1",
-                table: "Tickets",
-                column: "BuildingId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tickets_UserId",
+                schema: "public",
                 table: "Tickets",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_WorkerId",
+                schema: "public",
                 table: "Tickets",
                 column: "WorkerId");
         }
@@ -308,31 +329,40 @@ namespace Urify.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "AspNetRoleClaims",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "AspNetUserClaims",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                name: "AspNetUserLogins",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+                name: "AspNetUserRoles",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "AspNetUserTokens",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "Tickets",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetRoles",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Buildings",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Buildings");
+                name: "AspNetUsers",
+                schema: "public");
         }
     }
 }

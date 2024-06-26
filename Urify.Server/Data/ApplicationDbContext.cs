@@ -18,18 +18,34 @@ namespace Urify.Server.Data
         {
             base.OnModelCreating(builder);
 
-            // Configure relationships if needed
+            foreach (var entity in builder.Model.GetEntityTypes())
+            {
+                // Manter o nome da tabela como está
+                entity.SetTableName(entity.GetTableName());
+                
+                foreach (var property in entity.GetProperties())
+                {
+                    // Manter o nome da coluna como está
+                    property.SetColumnName(property.GetColumnName());
+                }
+            }
+
+            // Definir o esquema padrão para "public"
+            builder.HasDefaultSchema("public");
+
+            // Configurar relacionamentos e restrições de exclusão
             builder.Entity<Ticket>()
-                .HasOne(t => t.User)
-                .WithMany()
-                .HasForeignKey(t => t.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+        .HasOne(t => t.User)
+        .WithMany()
+        .HasForeignKey(t => t.UserId)
+        .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Ticket>()
-                .HasOne(t => t.Building)
-                .WithMany()
+                .HasOne(t => t.TheBuilding)
+                .WithMany(b => b.Tickets)
                 .HasForeignKey(t => t.BuildingId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasConstraintName("FK_Ticket_To_Building_BuildingId")
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Ticket>()
                 .HasOne(t => t.Worker)
@@ -37,7 +53,7 @@ namespace Urify.Server.Data
                 .HasForeignKey(t => t.WorkerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Seed();
+        builder.Seed();
         }
     }
 }
