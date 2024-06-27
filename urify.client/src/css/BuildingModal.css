@@ -35,3 +35,28 @@ ul {
     }
 
 /* Adicione mais estilos conforme necessário */
+
+.ticket-image {
+    max-width: 100%;
+    max-height: 300px; /* Limita a altura da imagem */
+    width: auto; /* Ajusta a largura automaticamente */
+    height: auto; /* Mantém a proporção da imagem */
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto; /* Centraliza a imagem */
+}
+/* Custom CSS for select box */
+select {
+    /* Your custom styles here */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: black; /* Ensures text color is black */
+}
+
+    /* Customizing options within select */
+    select option {
+        /* Your custom styles here */
+        color: black; /* Ensures text color is black */
+    }
