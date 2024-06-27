@@ -26,19 +26,6 @@ namespace Urify.Server.Controllers
             return await _context.Tickets.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Ticket>> GetTicket(int id)
-        {
-            var ticket = await _context.Tickets.FindAsync(id);
-
-            if (ticket == null)
-            {
-                return NotFound();
-            }
-
-            return ticket;
-        }
-
         [HttpPost("create-ticket")]
         public async Task<ActionResult<Ticket>> PostTicket([FromForm] TicketFormData formData)
         {
@@ -77,6 +64,38 @@ namespace Urify.Server.Controllers
             return CreatedAtAction("GetTicket", new { id = ticket.TicketId }, ticket);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TicketDto>> GetTicketById(int id)
+        {
+            var ticket = await _context.Tickets
+                .Include(t => t.User)
+                .Include(t => t.Worker)
+                .Include(t => t.TheBuilding)
+                .FirstOrDefaultAsync(t => t.TicketId == id);
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            var ticketDto = new TicketDto
+            {
+                TicketId = ticket.TicketId,
+                Description = ticket.Description,
+                Status = (int)ticket.Status,
+                Image = ticket.Image != null ? Convert.ToBase64String(ticket.Image) : null,
+                UserId = ticket.UserId,
+                UserName = ticket.User?.UserName,
+                WorkerId = ticket.WorkerId,
+                WorkerName = ticket.Worker?.UserName,
+                BuildingId = ticket.BuildingId,
+                BuildingName = ticket.TheBuilding?.Name,
+                DateCreated = ticket.DateCreated
+            };
+
+
+            return Ok(ticketDto);
+        }
 
         [HttpPut("alter-ticket/{id}")]
         public async Task<IActionResult> PutTicket(int id, Ticket ticket)
