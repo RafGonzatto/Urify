@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Urify.Server.Data;
 
@@ -29,6 +30,26 @@ namespace Urify.Server.Controllers
 
             return Ok(userIds);
         }
+        [HttpGet("worker-tickets")]
+        public async Task<IActionResult> GetWorkerTickets([FromQuery] string userEmail)
+        {
+            var userId = await _context.Users
+                .Where(u => u.Email == userEmail)
+                .Select(u => u.Id)
+                .FirstOrDefaultAsync();
+
+            if (userId == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var tickets = await _context.Tickets
+                .Where(t => t.WorkerId == userId)
+                .ToListAsync();
+
+            return Ok(tickets);
+        }
+
 
         [HttpPut("assign-worker")]
         public async Task<IActionResult> AssignWorkerToTicket(TicketWorkerDto ticketWorkerDto)

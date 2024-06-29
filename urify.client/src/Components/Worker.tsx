@@ -1,34 +1,90 @@
-﻿import React from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import Sidebar from './Sidebar';
+import TicketModal from './TicketModal';
 import UserModal from './UserModal';
+import UserTicketModal from './UserTicketModal'; // Importar o componente da modal de tickets do usuário
+import { AuthorizeView } from '../Components/AuthorizeView.tsx';
+import { UserContext } from '../Components/AuthorizeView.tsx'; 
+
 
 interface WorkerProps {
     toggleSidebar: () => void;
     toggleUserModal: () => void;
+    toggleTicketModal: () => void;
     isSidebarOpen: boolean;
     isUserModalOpen: boolean;
+    isTicketModalOpen: boolean;
 }
 
-const Worker: React.FC<WorkerProps> = ({ toggleSidebar, toggleUserModal, isSidebarOpen, isUserModalOpen }) => (
-    <>
-        <header className="header">
-            <button className="menu-btn" onClick={toggleSidebar}>
-                ☰
-            </button>
-            <div className="search-bar-container">
-                <input type="text" className="search-bar" placeholder="Search..." />
-                <span className="search-icon">🔍</span>
-            </div>
-            <button className="user-icon" onClick={toggleUserModal}>
-                👤
-            </button>
-        </header>
-        {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
-        {isUserModalOpen && <UserModal />}
-        <main className="content">
-            <p>Restante não implementado do site para Trabalhador</p>
-        </main>
-    </>
-);
+const Worker: React.FC<WorkerProps> = ({
+    toggleSidebar,
+    toggleUserModal,
+    toggleTicketModal,
+    isSidebarOpen,
+    isUserModalOpen,
+    isTicketModalOpen
+}) => {
+
+    const user = useContext(UserContext);  
+    const [userTicketsCount, setUserTicketsCount] = useState<number>(0);
+    const [isUserTicketModalOpen, setIsUserTicketModalOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        // Lógica para buscar e contar os tickets do usuário logado
+        const fetchUserTickets = async () => { 
+            try { 
+                const response = await fetch(`https://localhost:7249/Worker/worker-tickets?userEmail=${user.email}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user tickets');
+                }
+                const data = await response.json();
+                setUserTicketsCount(data.length);
+            } catch (err) {
+                console.error('Error fetching user tickets:', err);
+            }
+        };
+
+        fetchUserTickets();
+    }, []);
+
+    const toggleUserTicketModal = () => {
+        setIsUserTicketModalOpen(!isUserTicketModalOpen);
+    };
+
+    return (
+        <AuthorizeView>
+            <>
+                <header className="header">
+                    <button className="menu-btn" onClick={toggleSidebar}>
+                        ☰
+                    </button>
+                    <div className="notification-btn" onClick={toggleUserTicketModal}>
+                        <span className="bell-icon">🔔</span>
+                        <span className="notification-count">{userTicketsCount}</span>
+                    </div>
+                    <button className="btn-pattern" onClick={toggleTicketModal}>
+                        Criar Ticket
+                    </button>
+                    <button className="user-icon" onClick={toggleUserModal}>
+                        👤
+                    </button>
+                </header>
+                {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
+                {isUserModalOpen && <UserModal />}
+                {isTicketModalOpen && <TicketModal isOpen={isTicketModalOpen} onRequestClose={toggleTicketModal} />}
+                {isUserTicketModalOpen && <UserTicketModal userEmail={user.email} isOpen={isUserTicketModalOpen} onRequestClose={toggleUserTicketModal} />}
+                <main className="content">
+                    <p>Restante não implementado do site para Admin</p>
+                </main>
+            </>
+        </AuthorizeView>
+    );
+};
 
 export default Worker;
