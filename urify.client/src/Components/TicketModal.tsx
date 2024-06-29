@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import { UserContext } from '../Components/AuthorizeView.tsx'; 
+import { UserContext } from '../Components/AuthorizeView.tsx';
 
 const customStyles = {
     content: {
@@ -19,7 +19,6 @@ const customStyles = {
     },
 };
 
-// Estilos CSS personalizados para os inputs e textarea
 const inputStyles = {
     width: '100%',
     padding: '10px',
@@ -32,17 +31,20 @@ const inputStyles = {
 
 Modal.setAppElement('#root');
 
-const TicketModal = ({ isOpen, onRequestClose }) => {
+const TicketModal = ({ isOpen, onRequestClose, buildingId }) => {
     const [buildings, setBuildings] = useState([]);
-    const [selectedBuilding, setSelectedBuilding] = useState('');
+    const [selectedBuilding, setSelectedBuilding] = useState(buildingId || '');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
     const email = localStorage.getItem("email");
 
     useEffect(() => {
-        // Fetch buildings from the database
         fetchBuildings();
     }, []);
+
+    useEffect(() => {
+        setSelectedBuilding(buildingId);
+    }, [buildingId]);
 
     const fetchBuildings = () => {
         fetch('https://localhost:7249/building/all-buildings')
@@ -52,7 +54,6 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
     };
 
     const handleChangeDescription = (e) => {
-        // Limit description to 200 characters
         const text = e.target.value.slice(0, 100);
         setDescription(text);
     };
@@ -63,9 +64,8 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
         const formData = new FormData();
         formData.append('buildingId', selectedBuilding);
         formData.append('description', description);
-        formData.append('image', image);  // 'image' deve ser um Blob ou File
-        formData.append('email', email); 
-        
+        formData.append('image', image);
+        formData.append('email', email);
 
         fetch('https://localhost:7249/Ticket/create-ticket', {
             method: 'POST',
@@ -74,7 +74,6 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
             if (response.ok) {
                 alert('Ticket created successfully');
                 onRequestClose();
-                // Atualiza a lista de prédios após criar o ticket, se necessário
                 fetchBuildings();
             } else {
                 alert('Failed to create ticket');
@@ -101,7 +100,7 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
                             id="combobox"
                             value={selectedBuilding}
                             onChange={(e) => setSelectedBuilding(e.target.value)}
-                            style={inputStyles} // Aplicando os estilos
+                            style={inputStyles}
                         >
                             <option value="">Selecione o prédio</option>
                             {buildings.map((building) => (
@@ -117,9 +116,9 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
                             id="description"
                             value={description}
                             onChange={handleChangeDescription}
-                            rows={4}  // Adjust textarea height
-                            maxLength={100}  // Limit to 200 characters
-                            style={{ ...inputStyles, resize: 'vertical' }} // Aplicando os estilos
+                            rows={4}
+                            maxLength={100}
+                            style={{ ...inputStyles, resize: 'vertical' }}
                         ></textarea>
                     </div>
                     <div className="form-group">
@@ -128,7 +127,7 @@ const TicketModal = ({ isOpen, onRequestClose }) => {
                             type="file"
                             id="image"
                             onChange={(e) => setImage(e.target.files[0])}
-                            style={inputStyles} // Aplicando os estilos
+                            style={inputStyles}
                         />
                     </div>
                     <div>

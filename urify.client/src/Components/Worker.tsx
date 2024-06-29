@@ -4,7 +4,8 @@ import TicketModal from './TicketModal';
 import UserModal from './UserModal';
 import UserTicketModal from './UserTicketModal'; // Importar o componente da modal de tickets do usuário
 import { AuthorizeView } from '../Components/AuthorizeView.tsx';
-import { UserContext } from '../Components/AuthorizeView.tsx'; 
+import { UserContext } from '../Components/AuthorizeView.tsx';
+import Map from './Map'
 
 
 interface WorkerProps {
@@ -79,9 +80,7 @@ const Worker: React.FC<WorkerProps> = ({
                 {isUserModalOpen && <UserModal />}
                 {isTicketModalOpen && <TicketModal isOpen={isTicketModalOpen} onRequestClose={toggleTicketModal} />}
                 {isUserTicketModalOpen && <UserTicketModal userEmail={user.email} isOpen={isUserTicketModalOpen} onRequestClose={toggleUserTicketModal} />}
-                <main className="content">
-                    <p>Restante não implementado do site para Admin</p>
-                </main>
+                <Map></Map>
             </>
         </AuthorizeView>
     );

@@ -1,6 +1,7 @@
 .user-modal {
     position: fixed;
     right: 10px;
+    z-index: 1000;
     top: 80px;
     text-align: left;
     background-color: white;
