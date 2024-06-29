@@ -12,7 +12,7 @@ using Urify.Server.Data;
 namespace Urify.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240626193133_InitialMigration")]
+    [Migration("20240628200222_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -422,7 +422,6 @@ namespace Urify.Server.Migrations
                         .HasColumnName("Description");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("bytea")
                         .HasColumnName("Image");
 

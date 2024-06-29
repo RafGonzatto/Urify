@@ -204,7 +204,7 @@ namespace Urify.Server.Migrations
                     BuildingId = table.Column<int>(type: "integer", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Image = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Image = table.Column<byte[]>(type: "bytea", nullable: true),
                     WorkerId = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },

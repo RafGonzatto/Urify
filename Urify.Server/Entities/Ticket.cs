@@ -28,7 +28,7 @@ namespace Urify.Server.Data
         [StringLength(200)]
         public string Description { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
 
         public string? WorkerId { get; set; }
         public ApplicationUser Worker { get; set; }

@@ -419,7 +419,6 @@ namespace Urify.Server.Migrations
                         .HasColumnName("Description");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("bytea")
                         .HasColumnName("Image");
 
