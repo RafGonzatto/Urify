@@ -92,11 +92,36 @@ const BuildingTicketModal: React.FC<BuildingTicketModalProps> = ({ ticketId, onC
         setEditable(true); // Habilita a combobox para edição
     };
 
-    const handleSaveWorker = () => {
-        // Lógica para salvar o funcionário selecionado
-        console.log('Salvar funcionário:', selectedWorker);
-        setEditable(false); // Desabilita a combobox após salvar
+    const handleSaveWorker = async () => {
+        if (!selectedWorker) return;
+
+        try {
+            const response = await fetch(`https://localhost:7249/Ticket/alter-ticket/${ticketId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    TicketId: ticketId,
+                    WorkerId: selectedWorker,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update ticket with new worker');
+            }
+            const updatedTicket = await response.json(); 
+            // Atualizar localmente o ticket com o novo trabalhador
+            setEditable(false);
+            setTicket(prevTicket => prevTicket ? { ...prevTicket, workerId: selectedWorker, status: updatedTicket.status } : null);
+
+            setEditable(false);
+            ///quero atualizarostatus do ticket getStatusText(response.status) // Desabilita a combobox após salvar
+        } catch (err) {
+            console.error('Error updating ticket:', err);
+        }
     };
+
 
     const handleCancelEdit = () => {
         // Lógica para cancelar a edição do funcionário
@@ -127,7 +152,7 @@ const BuildingTicketModal: React.FC<BuildingTicketModalProps> = ({ ticketId, onC
                         <p><strong>Descrição:</strong> {ticket.description}</p>
                         <p><strong>Status:</strong> {getStatusText(ticket.status)}</p>
                         {ticket.image && <img src={`data:image/jpeg;base64,${ticket.image}`} alt="Ticket Image" className="ticket-image" />}
-                        <p><strong>Usuário:</strong> {ticket.userName}</p>
+                        <p><strong>Criado por:</strong> {ticket.userName}</p>
                         {ticket.workerName ? (
                             <p><strong>Responsável:</strong> {editable ? (
                                 <select value={selectedWorker || ''} onChange={handleWorkerChange} disabled={!editable}>

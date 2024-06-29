@@ -23,6 +23,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
     const [buildings, setBuildings] = useState<Building[]>([]);
     const [showOnlyWithTickets, setShowOnlyWithTickets] = useState<boolean>(false);
+    const [showOnlyWithOpenTickets, setShowOnlyWithOpenTickets] = useState<boolean>(false);
     const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
 
     useEffect(() => {
@@ -35,7 +36,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
                 const data = await response.json();
                 let filteredData = data;
                 if (showOnlyWithTickets) {
-                    filteredData = data.filter((building: Building) => building.ticketCount > 0);
+                    filteredData = filteredData.filter((building: Building) => building.ticketCount > 0);
+                } 
+                if (showOnlyWithOpenTickets) {
+                    debugger
+                    console.log(filteredData)
+                    filteredData = filteredData.filter((building: Building) =>
+                        building.tickets.some((ticket: Ticket) => ticket.status === 0)
+                    );
                 }
                 const formattedData = filteredData.map((building: Building) => ({
                     buildingId: building.buildingId,
@@ -50,10 +58,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
         };
 
         fetchBuildings();
-    }, [showOnlyWithTickets]);
+    }, [showOnlyWithTickets, showOnlyWithOpenTickets]);
 
-    const toggleFilter = () => {
+    const toggleShowOnlyWithTickets = () => {
         setShowOnlyWithTickets(!showOnlyWithTickets);
+    };
+
+    const toggleShowOnlyWithOpenTickets = () => {
+        setShowOnlyWithOpenTickets(!showOnlyWithOpenTickets);
     };
 
     const handleBuildingClick = (building: Building) => {
@@ -76,7 +88,17 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
                     <input
                         type="checkbox"
                         checked={showOnlyWithTickets}
-                        onChange={toggleFilter}
+                        onChange={toggleShowOnlyWithTickets}
+                    />
+                </label>
+            </div>
+            <div className="filter-controls">
+                <label>
+                    Mostrar apenas com tickets em aberto:
+                    <input
+                        type="checkbox"
+                        checked={showOnlyWithOpenTickets}
+                        onChange={toggleShowOnlyWithOpenTickets}
                     />
                 </label>
             </div>

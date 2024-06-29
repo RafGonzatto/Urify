@@ -2,43 +2,54 @@
 import Sidebar from './Sidebar';
 import UserModal from './UserModal';
 import TicketModal from './TicketModal';
-import { AuthorizeView } from '../Components/AuthorizeView.tsx';
-
+import ApproveModal from './ApproveModal'; // Importe o ApproveModal aqui
+import { AuthorizeView } from './AuthorizeView.tsx';
+import Map from './Map'
 interface AdminProps {
     toggleSidebar: () => void;
     toggleUserModal: () => void;
     toggleTicketModal: () => void;
+    toggleApproveModal: () => void;
     isSidebarOpen: boolean;
     isUserModalOpen: boolean;
     isTicketModalOpen: boolean;
+    isApproveModalOpen: boolean;
 }
 
-const Admin: React.FC<AdminProps> = ({ toggleSidebar, toggleUserModal, toggleTicketModal, isSidebarOpen, isUserModalOpen, isTicketModalOpen }) => (
-    
-        <AuthorizeView>
-    <>
-        <header className="header">
-            <button className="menu-btn" onClick={toggleSidebar}>
-                ☰
-            </button>
-            <div className="search-bar-container">
-                <input type="text" className="search-bar" placeholder="Search..." />
-                <span className="search-icon">🔍</span>
-            </div>
-            <button className="ticket-btn" onClick={toggleTicketModal}> Criar ticket
-            </button>
-            <button className="user-icon" onClick={toggleUserModal}>
-                👤
-            </button>
-        </header>
-        {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
-        {isUserModalOpen && <UserModal />}
-        {isTicketModalOpen && <TicketModal isOpen={isTicketModalOpen} onRequestClose={toggleTicketModal} />}
-        <main className="content">
-            <p>Restante não implementado do site para Admin</p>
-        </main>
+const Admin: React.FC<AdminProps> = ({
+    toggleSidebar,
+    toggleUserModal,
+    toggleTicketModal,
+    toggleApproveModal,
+    isSidebarOpen,
+    isUserModalOpen,
+    isTicketModalOpen,
+    isApproveModalOpen,
+}) => (
+    <AuthorizeView>
+        <>
+            <header className="header">
+                <button className="menu-btn" onClick={toggleSidebar}>
+                    ☰
+                </button>
+            
+                <button className="btn-pattern" onClick={toggleApproveModal}>
+                    Aprovar Usuários
+                </button>
+                <button className="btn-pattern" onClick={toggleTicketModal}>
+                    Criar Ticket
+                </button>
+                <button className="user-icon" onClick={toggleUserModal}>
+                    👤
+                </button>
+            </header>
+            {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
+            {isUserModalOpen && <UserModal />}
+            {isApproveModalOpen && <ApproveModal isOpen={isApproveModalOpen} onRequestClose={toggleApproveModal} />}
+            {isTicketModalOpen && <TicketModal isOpen={isTicketModalOpen} onRequestClose={toggleTicketModal} />}
+            <Map></Map>
         </>
-    </AuthorizeView >
+    </AuthorizeView>
 );
 
 export default Admin;

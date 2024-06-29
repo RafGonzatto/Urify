@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Security.Claims;
 using Urify.Server.Data;
 
@@ -34,7 +35,7 @@ namespace Urify.Server.Controllers
             {
                 return Unauthorized();
             }
-            byte[] imageBytes = null;
+            byte[]? imageBytes = null;
 
             if (formData.Image != null)
             {
@@ -61,7 +62,7 @@ namespace Urify.Server.Controllers
             _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTicket", new { id = ticket.TicketId }, ticket);
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -98,33 +99,32 @@ namespace Urify.Server.Controllers
         }
 
         [HttpPut("alter-ticket/{id}")]
-        public async Task<IActionResult> PutTicket(int id, Ticket ticket)
+        public async Task<IActionResult> UpdateTicketWorker([FromBody] TicketWorkerDto ticketPayload)
         {
-            if (id != ticket.TicketId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(ticket).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TicketExists(id))
+                var user = await _context.Users.FirstOrDefaultAsync(t => t.UserName == ticketPayload.WorkerId);
+                var ticket = await _context.Tickets.FindAsync(ticketPayload.TicketId); // Use o ID do parâmetro de rota
+                if (ticket == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
-            }
+                TicketStatus ticketOnProcess = (TicketStatus)1;
+                // Atualiza o workerId do ticket com o novo valor recebido
+                ticket.WorkerId = user.Id;
+                ticket.Status = ticketOnProcess;
 
-            return NoContent();
+                _context.Tickets.Update(ticket);
+                await _context.SaveChangesAsync();
+
+                return Ok(ticket);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao atualizar o ticket: {ex.Message}");
+            }
         }
+
 
         [HttpDelete("delete-ticket/{id}")]
         public async Task<IActionResult> DeleteTicket(int id)

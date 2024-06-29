@@ -13,11 +13,13 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ userType, status }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-    const [isTicketModalOpen, setIsTicketModalOpen] = useState(false); // Adicionar estado para TicketModal
+    const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const toggleUserModal = () => setIsUserModalOpen(!isUserModalOpen);
-    const toggleTicketModal = () => setIsTicketModalOpen(!isTicketModalOpen); // Adicionar função para TicketModal
+    const toggleTicketModal = () => setIsTicketModalOpen(!isTicketModalOpen);
+    const toggleApproveModal = () => setIsApproveModalOpen(!isApproveModalOpen);
 
     if (!status) {
         return <Navigate to="/login" />;
@@ -26,24 +28,38 @@ const Header: React.FC<HeaderProps> = ({ userType, status }) => {
     let content;
     switch (userType) {
         case 0:
-            content = <Student toggleSidebar={toggleSidebar} toggleUserModal={toggleUserModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} />;
+            content = <Student toggleUserModal={toggleUserModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} toggleTicketModal={toggleTicketModal} />;
             break;
         case 1:
-            content = <Worker toggleSidebar={toggleSidebar} toggleUserModal={toggleUserModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} />;
+            content = <Worker
+                toggleSidebar={toggleSidebar}
+                toggleUserModal={toggleUserModal}
+                toggleTicketModal={toggleTicketModal}
+                isSidebarOpen={isSidebarOpen}
+                isUserModalOpen={isUserModalOpen}
+                isTicketModalOpen={isTicketModalOpen}
+            />;
             break;
         case 2:
-            content = <Admin toggleSidebar={toggleSidebar} toggleUserModal={toggleUserModal} toggleTicketModal={toggleTicketModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} isTicketModalOpen={isTicketModalOpen} />;
+            content = (
+                <Admin
+                    toggleSidebar={toggleSidebar}
+                    toggleUserModal={toggleUserModal}
+                    toggleTicketModal={toggleTicketModal}
+                    toggleApproveModal={toggleApproveModal} // Passando a função toggleApproveModal para o Admin
+                    isSidebarOpen={isSidebarOpen}
+                    isUserModalOpen={isUserModalOpen}
+                    isTicketModalOpen={isTicketModalOpen}
+                    isApproveModalOpen={isApproveModalOpen} // Passando o estado isApproveModalOpen para o Admin
+                />
+            );
             break;
         default:
             content = null;
             break;
     }
 
-    return (
-        <div className="app">
-            {content}
-        </div>
-    );
+    return <div className="app">{content}</div>;
 };
 
 export default Header;
