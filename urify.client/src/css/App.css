@@ -1,5 +1,4 @@
 ﻿#root {
-    max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
@@ -50,7 +49,7 @@ th, td {
 }
 
 
-.menu-btn, .user-icon, .ticket-btn {
+.menu-btn, .user-icon, .btn-pattern, .notification-btn {
     background: none;
     border: none;
     font-size: 1.5em;
@@ -61,10 +60,33 @@ th, td {
 .user-icon {
     margin-right: 20px;
 }
-.ticket-btn {
+.btn-pattern {
     margin-right: 20px;
     font-size: 14px;
     padding: 10px 10px 10px 10px;
+}
+
+.notification-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.bell-icon {
+    font-size: 24px;
+    color: orange;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: orange;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 7px;
+    font-size: 12px;
 }
 
 .search-bar-container {
@@ -93,5 +115,5 @@ th, td {
 }
 
 .content {
-    padding: 70px 20px 20px; /* Ajustar padding superior para evitar sobreposição */
+    padding: 70px 20px 20px; 
 }
