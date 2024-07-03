@@ -44,6 +44,7 @@ const ChangePassword: React.FC = () => {
     };
 
     return (
+        <div className="change-password-page">
         <div className="change-password">
             <h2>Alterar Senha</h2>
             <form onSubmit={handleSubmit}>
@@ -77,6 +78,8 @@ const ChangePassword: React.FC = () => {
                 <p className="password-info">Tenha certeza de que sua senha contenha um caractere mai{String.fromCharCode(250)}sculo, um caractere min{String.fromCharCode(250)}sculo, um d{String.fromCharCode(237)}gito e um caractere n{String.fromCharCode(227)}o alfanum{String.fromCharCode(233)}rico.</p>
                 <button type="submit" className="update-password-button">Atualizar senha</button>
             </form>
+            </div>
+
         </div>
     );
 };
