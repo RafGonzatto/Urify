@@ -125,6 +125,31 @@ namespace Urify.Server.Controllers
             }
         }
 
+        [HttpPut("resolve-ticket/{id}")]
+        public async Task<IActionResult> UpdateTicketWorker(int id, [FromBody] TicketWorkerDto ticketPayload)
+        {
+            try
+            {
+             
+                var ticket = await _context.Tickets.FindAsync(id); // Buscar o ticket pelo ID recebido
+
+                if (ticket == null)
+                {
+                    return NotFound();
+                }
+
+                ticket.Status = (TicketStatus)2; // Definir o status como Resolvido (ou o valor correto conforme a enumeração)
+
+                _context.Tickets.Update(ticket); // Atualizar o ticket no contexto
+                await _context.SaveChangesAsync(); // Salvar as alterações no banco de dados
+
+                return Ok(ticket); // Retornar o ticket atualizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao atualizar o ticket: {ex.Message}");
+            }
+        }
 
         [HttpDelete("delete-ticket/{id}")]
         public async Task<IActionResult> DeleteTicket(int id)
