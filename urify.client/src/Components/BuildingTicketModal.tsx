@@ -110,13 +110,12 @@ const BuildingTicketModal: React.FC<BuildingTicketModalProps> = ({ ticketId, onC
             if (!response.ok) {
                 throw new Error('Failed to update ticket with new worker');
             }
-            const updatedTicket = await response.json(); 
+
+            const updatedTicket = await response.json();
             // Atualizar localmente o ticket com o novo trabalhador
             setEditable(false);
             setTicket(prevTicket => prevTicket ? { ...prevTicket, workerId: selectedWorker, status: updatedTicket.status } : null);
 
-            setEditable(false);
-            ///quero atualizarostatus do ticket getStatusText(response.status) // Desabilita a combobox após salvar
         } catch (err) {
             console.error('Error updating ticket:', err);
         }
@@ -153,22 +152,8 @@ const BuildingTicketModal: React.FC<BuildingTicketModalProps> = ({ ticketId, onC
                         <p><strong>Status:</strong> {getStatusText(ticket.status)}</p>
                         {ticket.image && <img src={`data:image/jpeg;base64,${ticket.image}`} alt="Ticket Image" className="ticket-image" />}
                         <p><strong>Criado por:</strong> {ticket.userName}</p>
-                        {ticket.workerName ? (
-                            <p><strong>Responsável:</strong> {editable ? (
-                                <select value={selectedWorker || ''} onChange={handleWorkerChange} disabled={!editable}>
-                                    <option value="">Selecione um trabalhador</option>
-                                    {workers.map((worker) => (
-                                        <option key={worker} value={worker}>
-                                            {worker}
-                                        </option>
-                                    ))}
-                                </select>
-                            ) : (
-                                <>
-                                    {ticket.workerName} <button onClick={handleChangeWorker}>✏️</button>
-                                </>
-                            )}
-                            </p>
+                        {ticket.status === 2 ? (
+                            <p></p>
                         ) : (
                             <p><strong>Responsável:</strong> {editable ? (
                                 <select value={selectedWorker || ''} onChange={handleWorkerChange} disabled={!editable}>
@@ -180,8 +165,11 @@ const BuildingTicketModal: React.FC<BuildingTicketModalProps> = ({ ticketId, onC
                                     ))}
                                 </select>
                             ) : (
-                                <button onClick={handleAssignWorker}>Atribuir Funcionário</button>
-                            )}</p>
+                                <>
+                                    {ticket.workerName || 'Nenhum responsável atribuído'} <button onClick={handleChangeWorker}>✏️</button>
+                                </>
+                            )}
+                            </p>
                         )}
 
                         {editable && (

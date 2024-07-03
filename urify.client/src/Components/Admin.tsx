@@ -29,19 +29,23 @@ const Admin: React.FC<AdminProps> = ({
     <AuthorizeView>
         <>
             <header className="header">
+                <div className="left-section">
                 <button className="menu-btn" onClick={toggleSidebar}>
                     ☰
                 </button>
             
                 <button className="btn-pattern" onClick={toggleApproveModal}>
                     Aprovar Usuários
-                </button>
+                    </button>
+                </div>
+                <div className="right-section">
                 <button className="btn-pattern" onClick={toggleTicketModal}>
                     Criar Ticket
                 </button>
                 <button className="user-icon" onClick={toggleUserModal}>
                     👤
                 </button>
+                </div>
             </header>
             {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
             {isUserModalOpen && <UserModal />}

@@ -1,19 +1,18 @@
 ﻿import React, { useState, useEffect } from 'react';
 import '../css/Sidebar.css';
-import BuildingModal from './BuildingModal'; // Importa o componente BuildingModal
+import BuildingModal from './BuildingModal'; 
 
 interface Building {
     buildingId: number;
     name: string;
     ticketCount: number;
-    tickets: Ticket[]; // Adiciona a propriedade de tickets ao prédio
+    tickets: Ticket[]; 
 }
 
 interface Ticket {
     ticketId: number;
     description: string;
     status: string;
-    // Outras propriedades do ticket
 }
 
 interface SidebarProps {
@@ -37,10 +36,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
                 let filteredData = data;
                 if (showOnlyWithTickets) {
                     filteredData = filteredData.filter((building: Building) => building.ticketCount > 0);
-                } 
+                }
                 if (showOnlyWithOpenTickets) {
-                    debugger
-                    console.log(filteredData)
                     filteredData = filteredData.filter((building: Building) =>
                         building.tickets.some((ticket: Ticket) => ticket.status === 0)
                     );
@@ -49,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
                     buildingId: building.buildingId,
                     name: building.name,
                     ticketCount: building.ticketCount,
-                    tickets: building.tickets // Adiciona os tickets ao prédio
+                    tickets: building.tickets 
                 }));
                 setBuildings(formattedData);
             } catch (error) {
@@ -102,6 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
                     />
                 </label>
             </div>
+            <hr /> {}
             <ul>
                 {buildings.map((building) => (
                     <li key={building.buildingId} className="building-item">
@@ -109,14 +107,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
                             className="building-button"
                             onClick={() => handleBuildingClick(building)}
                         >
-                            {building.buildingId} - {building.name}
+                            <span className="building-info">
+                                <span className="building-name">{building.buildingId} - {building.name}</span>
+                                <span className="ticket-count">{building.ticketCount}</span>
+                            </span>
                         </button>
-                        <span className="ticket-count">{building.ticketCount}</span>
                     </li>
                 ))}
             </ul>
 
-            {/* Renderiza a modal apenas se houver um prédio selecionado */}
+            {}
             <BuildingModal building={selectedBuilding} onClose={closeModal} />
         </div>
     );

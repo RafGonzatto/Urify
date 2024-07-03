@@ -2,7 +2,7 @@
 import Modal from 'react-modal';
 import '../css/BuildingModal.css'; // Estilo da modal
 import TicketDetailModal from './TicketDetailModal'; // Componente da modal de detalhes do ticket
-
+import { format } from 'date-fns';
 interface Ticket {
     ticketId: number;
     description: string;
@@ -102,7 +102,7 @@ const UserTicketModal: React.FC<UserTicketModalProps> = ({ isOpen, userEmail, on
                                 <button key={ticket.ticketId} onClick={() => handleTicketClick(ticket)} className="ticket-item">
                                     <h3>Ticket ID: {ticket.ticketId}</h3>
                                     <p><strong>Descrição:</strong> {ticket.description}</p>
-                                    <p><strong>Status:</strong> {getStatusText(ticket.status)}</p>
+                                    <p><strong>Data:</strong> {format(new Date(ticket.dateCreated), 'dd/MM/yyyy')}</p>
                                 </button>
                             ))}
                         </>

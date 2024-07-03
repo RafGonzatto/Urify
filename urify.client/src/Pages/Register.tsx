@@ -29,15 +29,15 @@ function Register() {
         const { value } = e.target;
         setUserType(value);
     };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!email || !password || !confirmPassword || !firstName || !lastName || !userType) {
-            setError("Please fill in all fields.");
+            setError("Preencha todas os campos.");
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setError("Please enter a valid email address.");
+            setError("Insira um Email válido");
         } else if (password !== confirmPassword) {
-            setError("Passwords do not match.");
+            setError("Senhas são diferentes.");
         } else {
             setError("");
 
@@ -51,28 +51,28 @@ function Register() {
             })
                 .then((response) => {
                     if (!response.ok) {
-                        throw new Error("Error registering.");
+                        throw new Error("Erro ao registrar.");
                     }
                     return response.status;
                 })
                 .then((status) => {
                     console.log(status); // Apenas para debug
-                    setError("Successful register."); // Define o estado de erro como registro bem-sucedido
+                    setError("Registro bem sucedido."); // Define o estado de erro como registro bem-sucedido
                 })
                 .catch((error) => {
                     console.error(error);
-                    setError("Error registering.");
+                    setError("Erro ao registrar.");
                 });
         }
     };
 
     return (
         <div className="register-container">
-            <h2>Register</h2>
+            <h2>Cadastrar</h2>
 
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="firstName">First Name</label>
+                    <label htmlFor="firstName">Nome</label>
                     <input
                         type="text"
                         id="firstName"
@@ -82,7 +82,7 @@ function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="lastName">Last Name</label>
+                    <label htmlFor="lastName">Sobrenome</label>
                     <input
                         type="text"
                         id="lastName"
@@ -102,7 +102,7 @@ function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Senha</label>
                     <input
                         type="password"
                         id="password"
@@ -112,7 +112,7 @@ function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <label htmlFor="confirmPassword">Confirmar Senha</label>
                     <input
                         type="password"
                         id="confirmPassword"
@@ -122,7 +122,7 @@ function Register() {
                     />
                 </div>
                 <div className="form-group form-checkbox-group">
-                    <label>User Type:</label>
+                    <label>Tipo de Usu{String.fromCharCode(225)}rio:</label>
                     <div className="form-checkbox">
                         <input
                             type="radio"
@@ -132,7 +132,7 @@ function Register() {
                             checked={userType === "0"}
                             onChange={handleCheckboxChange}
                         />
-                        <label htmlFor="student">Student</label>
+                        <label htmlFor="student">Estudante</label>
                     </div>
                     <div className="form-checkbox">
                         <input
@@ -143,7 +143,7 @@ function Register() {
                             checked={userType === "1"}
                             onChange={handleCheckboxChange}
                         />
-                        <label htmlFor="employee">Employee</label>
+                        <label htmlFor="employee">Funcion{String.fromCharCode(225)}rio</label>
                     </div>
                     <div className="form-checkbox">
                         <input
@@ -154,14 +154,14 @@ function Register() {
                             checked={userType === "2"}
                             onChange={handleCheckboxChange}
                         />
-                        <label htmlFor="management">Management</label>
+                        <label htmlFor="management">Ger{String.fromCharCode(234)}ncia</label>
                     </div>
                 </div>
                 <div className="form-group">
-                    <button type="submit" className="register-button">Register</button>
+                    <button type="submit" className="register-button">Cadastrar</button>
                 </div>
                 <div className="form-group">
-                    <button type="button" onClick={handleLoginClick} className="login-button">Go to Login</button>
+                    <button type="button" onClick={handleLoginClick} className="login-button">Ir para Login</button>
                 </div>
             </form>
 

@@ -7,8 +7,8 @@
 
 .map-image-wrapper {
     cursor: grab; /* Change cursor to indicate draggable area */
-    user-select: none; 
-    -webkit-user-drag: none; 
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
     .map-image-wrapper:active {
@@ -20,267 +20,206 @@
     height: 2037px;
     pointer-events: none; /* Prevent interaction with the image */
 }
-.predio-1 {
-    cursor: pointer; 
+
+.predio-1,
+.predio-2,
+.predio-3,
+.predio-4,
+.predio-5,
+.predio-6,
+.predio-7,
+.predio-8,
+.predio-9,
+.predio-10,
+.predio-11,
+.predio-13,
+.predio-14,
+.predio-16,
+.predio-17,
+.predio-18,
+.predio-20,
+.predio-21,
+.predio-23,
+.predio-26,
+.predio-27,
+.predio-28,
+.predio-29,
+.predio-31 {
+    cursor: pointer;
     user-select: none;
     -webkit-user-drag: none;
     position: absolute;
-    top: 1505px;
+    opacity: 0; /* Initial opacity */
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+    .predio-1:hover,
+    .predio-2:hover,
+    .predio-3:hover,
+    .predio-4:hover,
+    .predio-5:hover,
+    .predio-6:hover,
+    .predio-7:hover,
+    .predio-8:hover,
+    .predio-9:hover,
+    .predio-10:hover,
+    .predio-11:hover,
+    .predio-13:hover,
+    .predio-14:hover,
+    .predio-16:hover,
+    .predio-17:hover,
+    .predio-18:hover,
+    .predio-20:hover,
+    .predio-21:hover,
+    .predio-23:hover,
+    .predio-26:hover,
+    .predio-27:hover,
+    .predio-28:hover,
+    .predio-29:hover,
+    .predio-31:hover {
+        opacity: 1; /* Opacity when hovered */
+    }
+
+.predio-1 {
+    top: 1508px;
     left: 1944px;
-    opacity: 1;
-    border: 1px solid red;
     z-index: 1;
 }
 
 .predio-2 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
-    top: 1440px;
-    left: 1895px;
-    opacity: 1;
+    top: 1448px;
+    left: 1893px;
     z-index: 2;
 }
+
 .predio-3 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1636px;
     left: 1717px;
-    opacity: 1;
     z-index: 3;
 }
+
 .predio-4 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1626px;
     left: 1572px;
-    opacity: 1;
     z-index: 4;
 }
+
 .predio-5 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1561px;
     left: 1463px;
-    opacity: 1;
     z-index: 5;
 }
+
 .predio-6 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1466px;
     left: 1433px;
-    opacity: 1;
     z-index: 6;
 }
+
 .predio-7 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1398px;
     left: 1378px;
-    opacity: 1;
     z-index: 7;
 }
+
 .predio-8 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1298px;
     left: 1382px;
-    opacity: 1;
     z-index: 8;
 }
+
 .predio-9 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1254px;
     left: 1211px;
-    opacity: 1;
     z-index: 9;
 }
+
 .predio-10 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 900px;
     left: 1560px;
-    opacity: 1;
     z-index: 10;
 }
+
 .predio-11 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 983px;
     left: 603px;
-    opacity: 1;
     z-index: 11;
 }
+
 .predio-13 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 490px;
     left: 1678px;
-    opacity: 1;
     z-index: 12;
 }
+
 .predio-14 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1056px;
     left: 1131px;
-    opacity: 1;
     z-index: 13;
 }
+
 .predio-16 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 389px;
     left: 1553px;
-    opacity: 1;
     z-index: 14;
 }
+
 .predio-17 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 340px;
     left: 1680px;
-    opacity: 1;
     z-index: 15;
 }
+
 .predio-18 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 785px;
     left: 1045px;
-    opacity: 1;
     z-index: 16;
 }
+
 .predio-20 {
-    position: absolute;
-    border: 1px solid red;
     top: 887px;
     left: 1296px;
-    opacity: 1;
     z-index: 17;
 }
+
 .predio-21 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1337px;
     left: 1068px;
-    opacity: 1;
     z-index: 18;
 }
+
 .predio-23 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 909px;
     left: 1922px;
-    opacity: 1;
     z-index: 19;
 }
+
 .predio-26 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 552px;
     left: 1561px;
-    opacity: 1;
     z-index: 20;
 }
+
 .predio-27 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1130px;
     left: 411px;
-    opacity: 1;
     z-index: 21;
 }
+
 .predio-28 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 6px;
     left: 1282px;
-    opacity: 1;
     z-index: 22;
 }
+
 .predio-29 {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1390px;
     left: 494px;
-    opacity: 1;
     z-index: 23;
 }
+
 .predio-31 {
-    cursor: pointer; 
-    user-select: none;
-    -webkit-user-drag: none;
-    position: absolute;
-    border: 1px solid red;
     top: 1320px;
     left: 308px;
-    opacity: 1;
     z-index: 24;
 }
-
-

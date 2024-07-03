@@ -22,6 +22,19 @@ interface BuildingModalProps {
     onClose: () => void;
 }
 
+const getStatusText = (status: number) => {
+    switch (status) {
+        case 0:
+            return 'Aberto';
+        case 1:
+            return 'Em processo';
+        case 2:
+            return 'Resolvido';
+        default:
+            return 'Desconhecido';
+    }
+};
+
 const BuildingModal: React.FC<BuildingModalProps> = ({ building, onClose }) => {
     const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
 
@@ -40,6 +53,7 @@ const BuildingModal: React.FC<BuildingModalProps> = ({ building, onClose }) => {
                 onRequestClose={onClose}
                 className="modal"
                 overlayClassName="modal-overlay"
+                contentLabel={`Tickets de ${building && building.name}`}
             >
                 <div className="modal-content">
                     <span className="close-modal" onClick={onClose}>
@@ -51,13 +65,12 @@ const BuildingModal: React.FC<BuildingModalProps> = ({ building, onClose }) => {
                             <ul>
                                 {building.tickets.map((ticket) => (
                                     <li key={ticket.ticketId}>
-                                        <button onClick={() => handleTicketClick(ticket.ticketId)}>
-                                            <div>
-                                                <strong>ID: {ticket.ticketId}</strong>
+                                        <button className="ticket-button" onClick={() => handleTicketClick(ticket.ticketId)}>
+                                            <div className="ticket-info">
+                                                <h3>Ticket ID: {ticket.ticketId}</h3>
+                                                <p><strong>Descrição:</strong> {ticket.description}</p>
+                                                <p><strong>Status:</strong> {getStatusText(ticket.status)}</p>
                                             </div>
-                                            <div>{ticket.description}</div>
-                                            <div>Status: {ticket.status}</div>
-                                            {/* Outras informações do ticket */}
                                         </button>
                                     </li>
                                 ))}
@@ -67,7 +80,7 @@ const BuildingModal: React.FC<BuildingModalProps> = ({ building, onClose }) => {
                 </div>
             </Modal>
 
-            {/* Renderiza a BuildingTicketModal se um ticket estiver selecionado */}
+            {}
             <BuildingTicketModal ticketId={selectedTicketId} onClose={closeTicketModal} />
         </>
     );

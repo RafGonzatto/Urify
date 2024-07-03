@@ -9,13 +9,13 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        borderRadius: '8px',  // Rounded corners
-        backgroundColor: '#fff',  // Background color
-        textAlign: 'left',  // Text alignment
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',  // Box shadow
+        borderRadius: '8px', 
+        backgroundColor: '#fff',  
+        textAlign: 'left',  
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',  
     },
     overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Overlay color
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',  
     },
 };
 
@@ -72,37 +72,39 @@ const TicketModal = ({ isOpen, onRequestClose, buildingId }) => {
             body: formData,
         }).then(response => {
             if (response.ok) {
-                alert('Ticket created successfully');
+                alert('Ticket criado com sucesso');
                 onRequestClose();
                 fetchBuildings();
             } else {
-                alert('Failed to create ticket');
+                alert('Falha ao criar ticket');
             }
         }).catch(error => {
-            console.error('Error creating ticket:', error);
-            alert('Failed to create ticket');
+            console.error('Erro ao criar ticket:', error);
+            alert('Falha ao criar ticket');
         });
     };
+    const selectPromptText = 'Selecione o pr' + String.fromCharCode(233) + 'dio';
+    const selectPromptText2 = 'Descri' + String.fromCharCode(231) + '' + String.fromCharCode(227) + 'o:';
 
     return (
         <Modal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             style={customStyles}
-            contentLabel="Create Ticket"
+            contentLabel="Criar Ticket"
         >
             <div className="register-ticket-container">
                 <h2>Criar Ticket</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="combobox">Prédio:</label>
+                        <label htmlFor="combobox">{'Pr' + String.fromCharCode(233) + 'dio'}:</label>
                         <select
                             id="combobox"
                             value={selectedBuilding}
                             onChange={(e) => setSelectedBuilding(e.target.value)}
                             style={inputStyles}
                         >
-                            <option value="">Selecione o prédio</option>
+                            <option value="">{selectPromptText}</option>
                             {buildings.map((building) => (
                                 <option key={building.buildingId} value={building.buildingId}>
                                     {building.buildingId} - {building.name}
@@ -111,7 +113,7 @@ const TicketModal = ({ isOpen, onRequestClose, buildingId }) => {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="description">Descrição:</label>
+                        <label htmlFor="description">{selectPromptText2}</label>
                         <textarea
                             id="description"
                             value={description}
@@ -131,8 +133,8 @@ const TicketModal = ({ isOpen, onRequestClose, buildingId }) => {
                         />
                     </div>
                     <div>
-                        <button className="register-ticket-button" type="submit">Criar Ticket</button>
-                        <button className="close-ticket-button" type="button" onClick={onRequestClose}>Fechar</button>
+                        <button className="register-ticket-button" type="submit">{'Criar Ticket'}</button>
+                        <button className="close-ticket-button" type="button" onClick={onRequestClose}>{'Fechar'}</button>
                     </div>
                 </form>
             </div>

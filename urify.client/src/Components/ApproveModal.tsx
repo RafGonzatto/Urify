@@ -66,11 +66,11 @@ const ApproveModal: React.FC<ApproveModalProps> = ({ isOpen, onRequestClose }) =
                     ✖
                 </span>
                 <h2>Usuários para Aprovação</h2>
-                <ul>
+                <ul className="user-list">
                     {usersToApprove.map((user) => (
-                        <li key={user.id}>
-                            {user.userName}
-                            <button onClick={() => handleApproveUser(user)}>Aprovar</button>
+                        <li key={user.id} className="user-item">
+                            <span className="username">{user.userName}</span>
+                            <button className="approve-button" onClick={() => handleApproveUser(user)}>Aprovar</button>
                         </li>
                     ))}
                 </ul>

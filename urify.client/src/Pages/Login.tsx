@@ -82,7 +82,7 @@ function Login() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Senha</label>
                     <input
                         type="password"
                         id="password"
@@ -98,13 +98,13 @@ function Login() {
                         name="rememberme"
                         checked={rememberme}
                         onChange={handleChange} />
-                    <label htmlFor="rememberme">Remember Me</label>
+                    <label htmlFor="rememberme">Lembrar de mim</label>
                 </div>
                 <div className="form-group">
                     <button type="submit" className="login-button">Login</button>
                 </div>
                 <div className="form-group">
-                    <button type="button" onClick={handleRegisterClick} className="register-button">Register</button>
+                    <button type="button" onClick={handleRegisterClick} className="register-button">Cadastrar</button>
                 </div>
             </form>
             {error && <p className="error">{error}</p>}

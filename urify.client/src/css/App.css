@@ -24,15 +24,35 @@ th, td {
     padding: 20px;
     text-align: left;
 }
+
 .app {
     font-family: Arial, sans-serif;
+}
+.user-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.username {
+    flex: 1;
+}
+
+.approve-button {
+    margin-left: 10px; /* Adicione margem à esquerda para separar o botão */
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 10px 20px; /* Ajuste do padding para um espaçamento mais consistente */
     background-color: #f0f0f0;
     border-bottom: 1px solid #ccc;
     width: 100%;
@@ -41,13 +61,11 @@ th, td {
     left: 0;
     z-index: 1000;
 }
-.modal-content {
-    cursor: move;
-    padding: 10px;
-    margin: 0;
-    border-bottom: 1px solid #ccc;
-}
 
+.left-section, .right-section {
+    display: flex;
+    align-items: center;
+}
 
 .menu-btn, .user-icon, .btn-pattern, .notification-btn {
     background: none;
@@ -56,21 +74,24 @@ th, td {
     cursor: pointer;
     padding: 0px 10px 0px 10px;
     border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px; /* Espaçamento entre os botões */
 }
 .user-icon {
-    margin-right: 20px;
+    margin-right: 30px; /* Espaçamento adicional para o botão "Criar Ticket" */
 }
+
 .btn-pattern {
-    margin-right: 20px;
     font-size: 14px;
     padding: 10px 10px 10px 10px;
+    margin-right: 20px; /* Espaçamento adicional para o botão "Criar Ticket" */
 }
 
 .notification-btn {
     position: relative;
     display: flex;
     align-items: center;
-    border-radius: 5px;
+    justify-content: center;
 }
 
 .bell-icon {
@@ -115,5 +136,108 @@ th, td {
 }
 
 .content {
-    padding: 70px 20px 20px; 
+    padding: 70px 20px 20px;
 }
+
+.ticket-button {
+    /* Estilos para os botões de ticket */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: left;
+}
+
+    .ticket-button:hover {
+        background-color: #e0e0e0;
+    }
+
+.ticket-info {
+    /* Estilos para o conteúdo dentro do botão */
+}
+
+    .ticket-info h3 {
+        margin: 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .ticket-info p {
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ticket-info strong {
+        margin-right: 5px;
+    }
+.ticket-button {
+    /* Estilos para os botões de ticket */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    text-align: left;
+}
+
+    .ticket-button:hover {
+        background-color: #e0e0e0;
+    }
+
+.ticket-info {
+    /* Estilos para o conteúdo dentro do botão */
+}
+
+    .ticket-info h3 {
+        margin: 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .ticket-info p {
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ticket-info strong {
+        margin-right: 5px;
+    }
+
+.ticket-item {
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.ticket-item:hover {
+    background-color: #e0e0e0;
+}
+
+
+    .ticket-item h3 {
+        margin: 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .ticket-item p {
+        margin: 0;
+    }
+
+    .ticket-item strong {
+        margin-right: 5px;
+    }
+
+    .ticket-item h3,
+    .ticket-item p {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }

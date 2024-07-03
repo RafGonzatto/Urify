@@ -33,7 +33,8 @@ namespace Urify.Server.Controllers
                 Tickets = b.Tickets.Select(t => new TicketDto
                 {
                     TicketId = t.TicketId,
-                    Status = (int)t.Status
+                    Status = (int)t.Status,
+                    Description = t.Description
                 }).ToList()
             }).ToList();
 

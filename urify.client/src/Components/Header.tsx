@@ -28,7 +28,12 @@ const Header: React.FC<HeaderProps> = ({ userType, status }) => {
     let content;
     switch (userType) {
         case 0:
-            content = <Student toggleUserModal={toggleUserModal} isSidebarOpen={isSidebarOpen} isUserModalOpen={isUserModalOpen} toggleTicketModal={toggleTicketModal} />;
+            content = <Student
+                toggleUserModal={toggleUserModal}
+                toggleTicketModal={toggleTicketModal}
+                isUserModalOpen={isUserModalOpen}
+                isTicketModalOpen={isTicketModalOpen}
+            />;
             break;
         case 1:
             content = <Worker
@@ -46,11 +51,11 @@ const Header: React.FC<HeaderProps> = ({ userType, status }) => {
                     toggleSidebar={toggleSidebar}
                     toggleUserModal={toggleUserModal}
                     toggleTicketModal={toggleTicketModal}
-                    toggleApproveModal={toggleApproveModal} // Passando a função toggleApproveModal para o Admin
+                    toggleApproveModal={toggleApproveModal} 
                     isSidebarOpen={isSidebarOpen}
                     isUserModalOpen={isUserModalOpen}
                     isTicketModalOpen={isTicketModalOpen}
-                    isApproveModalOpen={isApproveModalOpen} // Passando o estado isApproveModalOpen para o Admin
+                    isApproveModalOpen={isApproveModalOpen} 
                 />
             );
             break;

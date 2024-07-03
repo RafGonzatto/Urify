@@ -1,13 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../Components/AuthorizeView.tsx'; // Certifique-se de importar corretamente o contexto
-import '../css/ChangePassword.css'
+import { UserContext } from '../Components/AuthorizeView.tsx';
+import '../css/ChangePassword.css';
+
 const ChangePassword: React.FC = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
-    const user = useContext(UserContext); // Acesso ao contexto UserContext
+    const user = useContext(UserContext);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -26,7 +27,7 @@ const ChangePassword: React.FC = () => {
                 body: JSON.stringify({
                     currentPassword,
                     newPassword,
-                    email: user.email, // Utilizando o email do contexto
+                    email: user.email,
                 })
             });
 
@@ -41,7 +42,6 @@ const ChangePassword: React.FC = () => {
             alert('Ocorreu um erro ao tentar alterar a senha. Por favor, tente novamente.');
         }
     };
-
 
     return (
         <div className="change-password">
@@ -74,7 +74,7 @@ const ChangePassword: React.FC = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
-                <p className="password-info">Tenha certeza de que sua senha tenha no mínimo 8 caracteres, incluindo número, uma letra maiúscula</p>
+                <p className="password-info">Tenha certeza de que sua senha contenha um caractere mai{String.fromCharCode(250)}sculo, um caractere min{String.fromCharCode(250)}sculo, um d{String.fromCharCode(237)}gito e um caractere n{String.fromCharCode(227)}o alfanum{String.fromCharCode(233)}rico.</p>
                 <button type="submit" className="update-password-button">Atualizar senha</button>
             </form>
         </div>

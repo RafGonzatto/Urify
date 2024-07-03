@@ -1,9 +1,9 @@
 .sidebar {
     position: fixed;
     left: 0;
-    top: 61px; /* Alinhar com a altura do header */
+    top: 59px; 
     width: 250px;
-    height: 100%; /* Ajuste conforme necessário */
+    height: 100%; 
     background-color: #808080;
     color: white;
     padding: 20px;
@@ -11,14 +11,15 @@
 }
 
     .sidebar .close-btn {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.5em;
-        cursor: pointer;
         position: absolute;
         top: 10px;
         right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        color: #333;
+        padding: 0px 5px 0px 5px;
     }
 
     .sidebar h2 {
@@ -33,15 +34,70 @@
     .sidebar li {
         margin: 10px 0;
     }
+.building-button {
+    width: 100%;
+    background-color: #b5b2b2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    text-align: left;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+.building-button:hover {
+    background-color: #e0d8c5;
+}
+
 .ticket-count {
-    margin-left: 10px; /* Espaço entre o nome do prédio e o contador de tickets */
+    position: absolute;
+    right: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
     padding: 5px 10px;
-    background-color: #a3a3a3;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 12px;
     text-align: right;
 }
+.building-name {
+    color: white;
+    margin-right: 30px; 
+}
+.filter-controls {
+    margin-bottom: 10px;
+}
+
+    .filter-controls label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .filter-controls input[type="checkbox"] {
+        border: 8px;
+        padding: 8px;
+        margin-right: 5px; 
+        float: right; 
+    }
+
+    .filter-controls span {
+        display: block;
+        margin-bottom: 5px;
+        clear: both; 
+    }
+
+    .filter-controls hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 10px 0;
+    }
+
 .building-item {
     display: flex;
     justify-content: space-between;
@@ -51,7 +107,7 @@
 }
 
 .building-name {
-    flex: 1; /* Faz o nome do prédio ocupar todo o espaço disponível */
-    text-align: left; /* Alinha o texto à esquerda */
+    flex: 1;
+    text-align: left;
 }
 

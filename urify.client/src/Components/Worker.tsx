@@ -5,8 +5,7 @@ import UserModal from './UserModal';
 import UserTicketModal from './UserTicketModal'; // Importar o componente da modal de tickets do usuário
 import { AuthorizeView } from '../Components/AuthorizeView.tsx';
 import { UserContext } from '../Components/AuthorizeView.tsx';
-import Map from './Map'
-
+import Map from './Map';
 
 interface WorkerProps {
     toggleSidebar: () => void;
@@ -25,15 +24,14 @@ const Worker: React.FC<WorkerProps> = ({
     isUserModalOpen,
     isTicketModalOpen
 }) => {
-
-    const user = useContext(UserContext);  
+    const user = useContext(UserContext);
     const [userTicketsCount, setUserTicketsCount] = useState<number>(0);
     const [isUserTicketModalOpen, setIsUserTicketModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         // Lógica para buscar e contar os tickets do usuário logado
-        const fetchUserTickets = async () => { 
-            try { 
+        const fetchUserTickets = async () => {
+            try {
                 const response = await fetch(`https://localhost:7249/Worker/worker-tickets?userEmail=${user.email}`, {
                     method: 'GET',
                     headers: {
@@ -52,7 +50,7 @@ const Worker: React.FC<WorkerProps> = ({
         };
 
         fetchUserTickets();
-    }, []);
+    }, [user.email]);
 
     const toggleUserTicketModal = () => {
         setIsUserTicketModalOpen(!isUserTicketModalOpen);
@@ -62,25 +60,29 @@ const Worker: React.FC<WorkerProps> = ({
         <AuthorizeView>
             <>
                 <header className="header">
-                    <button className="menu-btn" onClick={toggleSidebar}>
-                        ☰
-                    </button>
-                    <div className="notification-btn" onClick={toggleUserTicketModal}>
-                        <span className="bell-icon">🔔</span>
-                        <span className="notification-count">{userTicketsCount}</span>
+                    <div className="left-section">
+                        <button className="menu-btn" onClick={toggleSidebar}>
+                            ☰
+                        </button>
+                        <button className="notification-btn" onClick={toggleUserTicketModal}>
+                            <span className="bell-icon">🔔</span>
+                            <span className="notification-count">{userTicketsCount}</span>
+                        </button>
                     </div>
-                    <button className="btn-pattern" onClick={toggleTicketModal}>
-                        Criar Ticket
-                    </button>
-                    <button className="user-icon" onClick={toggleUserModal}>
-                        👤
-                    </button>
+                    <div className="right-section">
+                        <button className="btn-pattern" onClick={toggleTicketModal}>
+                            Criar Ticket
+                        </button>
+                        <button className="user-icon" onClick={toggleUserModal}>
+                            👤
+                        </button>
+                    </div>
                 </header>
                 {isSidebarOpen && <Sidebar onClose={toggleSidebar} />}
                 {isUserModalOpen && <UserModal />}
                 {isTicketModalOpen && <TicketModal isOpen={isTicketModalOpen} onRequestClose={toggleTicketModal} />}
                 {isUserTicketModalOpen && <UserTicketModal userEmail={user.email} isOpen={isUserTicketModalOpen} onRequestClose={toggleUserTicketModal} />}
-                <Map></Map>
+                <Map />
             </>
         </AuthorizeView>
     );
