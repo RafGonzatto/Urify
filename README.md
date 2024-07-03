@@ -40,7 +40,7 @@ Make sure you have the following installed:
    ```bash
    cd Urify\Urify.Server
 6. Navigate to the Urify\Urify.Server\appsettings.json file and change the connection string to your PostgreSQL connection:
-- Change the connection string to your's postgres connection
+- Change the connection string to your's postgres connection:
 
     ```bash
     "ConnectionStrings": {
@@ -50,6 +50,18 @@ Make sure you have the following installed:
 
    ```bash
    Update-Database
+8. Access the website features:
+
+- After running the project and accessing the application in your browser, go to the Register page and create an Admin type User.
+- Access your database with any visualization tool like DBeaver and run the query:
+
+    ```sql
+    select * from "AspNetUsers" anu;
+    ```
+
+- Manually change the field `IsAccountApproved` to `true`.
+- Now you can log in as this user and approve other accounts with it.
+   
 ### Running the Project
 
 Build and run in Visual Studio Community, this will start the backend server and the frontend client.
@@ -58,3 +70,5 @@ Build and run in Visual Studio Community, this will start the backend server and
 
 - Access the application in your browser at http://localhost:5173.
 - Acess the backend swagger documentation at https://localhost:7249/swagger/index.html
+
+![Worker Animation](urify.client/public/worker.gif)
